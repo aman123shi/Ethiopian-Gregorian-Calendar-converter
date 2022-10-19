@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <script src="js/jquery-3.4.1.min.js" ></script>
+    <script src="js/bootstrap.min.js" ></script>
+    <title>hello boot strrap with handle bars </title>
+</head>
+<body  style="background-image:url('img/wood.jpeg') no repeat cover;">
+       
+      <div id="sresult"></div>
+                       {{{body}}}
+                           <script>
+$("#etform").on("submit",function(evt){
+    evt.preventDefault();
+    var action = $(this).attr('action');
+    var res=$("#etresult");
+    var etdate={date:$("#d").val(),month:$("#month").val(),year:$("#y").val()};
+    //$(this).serialize()
+    console.log(etdate);
+    $.ajax({
+    url:'etcalander',
+    type: 'post',
+    data:etdate,
+    success: function(date){
+    if(date){
+    res.html(date.month+"  "+date.date+"  "+date.year);
+}   else {
+    res.html('There was a problem.');
+}
+},
+error: function(){
+alert("general maybe ajax syntax");
+}
+});});
+
+</script>
+{{{_sections.jquery}}}
+</body>
+</html>

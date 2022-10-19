@@ -1,0 +1,87 @@
+<div class="container">
+    <h1 class="display-3"><span class="text-success">Welcome To</span> <span class="text-warning">Ethiopian</span> <span class="text-success">Calendar </span></h1>
+    <div class="row">
+  <div class="col-6">
+  <div id="ethio-panel">
+    <b style="text-align: center; color:red"> የኢትዮጵያ ቀን ያስገቡ </b> <br><br>
+<form action="/etcalander" method="get" id="etform">
+<div class="row" >
+  <div class="col-sm-2 " style="padding:0px; margin:5px;">
+    <span style="color: red;">ወር</span>    <br>
+   <select name="month" id="month">
+        <option value="1">መስከረም</option>
+        <option value="2">ጥቅምት</option>
+        <option value="3">ህዳር</option>
+        <option value="4">ታህሳስ</option>
+        <option value="5">ጥር</option>
+        <option value="6">የካቲት</option>
+        <option value="7">መጋቢት</option>
+        <option value="8">ሚያዝያ</option>
+        <option value="9">ግንቦት</option>
+        <option value="10">ሰኔ</option>
+        <option value="11">ሀምሌ</option>
+        <option value="12">ነሀሴ</option>
+        <option value="13">ጷጉሜ</option>
+      </select>
+      </div>
+       <div class="col-sm-2"  style="padding:0px; margin:5px;"> 
+          <span style="color: red;">ቀን</span>    <br>
+         <input type="number" name="date" min="1" max="30" value="1" id="d">
+       </div>
+        <div class="col-sm" style="padding:0px; margin:5px;">
+           <span style="color: red;">አመት</span>  <br>
+           <input type="number" style="max-width:90px;" name="year" min="1900" value="2012" id="y"><br>
+        </div>
+</div>
+<div style="margin-top:50px">
+  <button type="submit" id="btnet" class="btn btn-success btn-lg btn-block" style="max-width: 300px; margin-top:50px">ቀይር</button>
+</div>
+</form>
+  </div>
+  <br><br><br>
+  <div id="gregPanel">
+    <b  class="display-5 " style="color: red;">select gregorian year </b>
+    <form action="/gregcalendar" id="gregform">
+    <input type="date" name="date" id="gd"><br><br>
+      <button type="submit" id="btgreg" class="btn btn-success btn-lg btn-block" style="max-width: 300px; margin-top:25px">convert</button>
+    </form>
+  </div>
+  </div>
+  <div class="col-6">
+<div id="ethioDateResult" class="jumbotron bg-info" style="margin-top: 25px;">
+  <h2 class="display-4" id="etresult">{{grdate.month}} {{grdate.date}} {{grdate.year}}</h2>
+</div>
+<br>
+<div id="gregDateResult" class="jumbotron bg-warning">
+<h2 class="display-4" id="gregresult"> {{etdate.month}} {{etdate.date}} {{etdate.year}}</h2>
+</div>
+  </div>
+</div>
+</div>
+{{#section 'jquery'}}
+<script>
+$("#gregform").on("submit",function(evt){
+    evt.preventDefault();
+    var action = $(this).attr('action');
+    var res=$("#gregresult");
+    var etdate={date:$("#gd").val()};
+    //$(this).serialize()
+    console.log(etdate);
+    $.ajax({
+    url:'gregcalendar',
+    type: 'post',
+    data:etdate,
+    success: function(date){
+    if(date){
+    res.html(date.month+"  "+date.date+"  "+date.year);
+}   else {
+    res.html('There was a problem.');
+}
+},
+error: function(){
+alert("general maybe ajax syntax");
+}
+});});
+
+</script>
+{{/section}}
